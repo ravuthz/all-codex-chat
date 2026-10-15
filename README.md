@@ -43,6 +43,39 @@ Example client configuration:
 
 Replace the paths before adding this config to an MCP client. A local stdio server is available only where it runs; this package does not provide a hosted public endpoint.
 
+## Process management (PM2)
+
+Manage background services (`export-post-mcp` and `export-post-tunnel`) configured in `ecosystem.config.cjs` using the `Makefile`:
+
+```sh
+# Start or restart services
+make start
+make restart
+
+# Inspect status and metadata
+make status
+make info
+
+# Stream logs (or tail without streaming)
+make logs
+make logs-tail LINES=100
+make logs-mcp
+make logs-tunnel
+
+# Stop or remove services from PM2
+make stop
+make delete
+
+# Persist process list across reboots
+make save
+make resurrect
+
+# Interactive monitor
+make monit
+```
+
+Run `make help` for the full list of available targets and overrides.
+
 ## Tools
 
 - `export_post`: one call for a title, finished Markdown, accessible messages, and small inline assets.
@@ -55,6 +88,13 @@ Replace the paths before adding this config to an MCP client. A local stdio serv
 The service never accepts system/developer/tool/private-reasoning messages. It rejects obvious credentials and private keys, unsafe paths, missing local Markdown targets, oversized files, and malformed base64. Review `post.md` and the ZIP before publishing; automated secret checks cannot recognize every secret.
 
 ## Try it
+
+```sh
+make test
+make package
+```
+
+Alternatively, run the underlying commands directly:
 
 ```sh
 python3 -m unittest discover -s tests -v
