@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "export-post-mcp",
+  "version": "0.1.0",
+  "description": "Export accessible AI conversations and related assets as portable Markdown post ZIPs.",
+  "author": {"name": "ravuthz"},
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Export Post MCP",
+        "shortDescription": "Export chats as post ZIPs",
+        "longDescription": "Package accessible conversation content and assets into a verified Markdown publishing bundle.",
+        "developerName": "ravuthz",
+        "category": "Productivity",
+        "capabilities": [],
+        "defaultPrompt": "Export this accessible conversation as a polished post ZIP, including relevant assets."
+      }
+    }
+  }
+}
