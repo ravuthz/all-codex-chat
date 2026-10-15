@@ -40,8 +40,68 @@ Example client configuration:
   }
 }
 ```
+Replace the paths before adding this config to an MCP client.
 
-Replace the paths before adding this config to an MCP client. A local stdio server is available only where it runs; this package does not provide a hosted public endpoint.
+## Install and connect (export-post-mcp.appkh.online)
+
+The MCP service is hosted and exposed over HTTPS via Cloudflare Tunnel at `export-post-mcp.appkh.online`.
+
+- **Endpoint URL**: `https://export-post-mcp.appkh.online/mcp`
+- **Transport**: MCP JSON-RPC 2.0 over HTTP POST (stateless)
+- **Public Downloads**: Completed exports return signed download URLs under `https://export-post-mcp.appkh.online/downloads/{export_id}/{token}`
+
+### 1. Claude Code CLI
+
+Add the MCP server directly using the CLI:
+
+```sh
+claude mcp add export-post https://export-post-mcp.appkh.online/mcp
+```
+
+### 2. Cursor, Windsurf, or Direct HTTP Clients
+
+Add the remote endpoint to your client configuration (e.g. `~/.cursor/mcp.json` or project `.cursor/mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "export-post": {
+      "url": "https://export-post-mcp.appkh.online/mcp"
+    }
+  }
+}
+```
+
+### 3. Claude Desktop (macOS / Windows)
+
+For clients that use local stdio processes, bridge to the remote HTTP endpoint using `mcp-remote` in your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "export-post": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://export-post-mcp.appkh.online/mcp"]
+    }
+  }
+}
+```
+
+### 4. Verify Connection
+
+Verify that the remote endpoint is responsive and serving MCP tools:
+
+```sh
+# Initialize handshake
+curl -s -X POST https://export-post-mcp.appkh.online/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "test-client", "version": "1.0.0"}}}'
+
+# List available tools
+curl -s -X POST https://export-post-mcp.appkh.online/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}}'
+```
 
 ## Process management (PM2)
 

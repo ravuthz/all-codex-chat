@@ -11,6 +11,7 @@ module.exports = {
       args: ["--http", "--host", "127.0.0.1", "--port", "8765"],
       env: {
         PYTHONUNBUFFERED: "1",
+        EXPORT_POST_PUBLIC_BASE_URL: "https://export-post-mcp.appkh.online",
       },
       autorestart: true,
       restart_delay: 3000,
